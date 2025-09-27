@@ -234,12 +234,6 @@
         android:background="@drawable/blue_circle" />
 
     <!-- Right side blue circle -->
-    <View
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="-30dp"
-        android:background="@drawable/light_blue_circle" />
+
 
 </RelativeLayout>
