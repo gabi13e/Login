@@ -1,239 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_background">
+    android:fillViewport="true"
+    tools:context=".LoginActivity">
 
-    <!-- Top left blue circle -->
-    <View
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-30dp"
-        android:layout_marginTop="-30dp"
-        android:background="@drawable/blue_circle" />
-
-    <!-- Small blue circle top right -->
-    <View
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/light_blue_circle" />
-
-    <!-- Login/Sign In Tab Layout -->
-    <LinearLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="280dp"
-        android:background="@drawable/tab_background"
-        android:orientation="horizontal"
-        android:padding="4dp">
-
-        <TextView
-            android:id="@+id/login_tab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/active_tab_background"
-            android:gravity="center"
-            android:text="Login"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/signin_tab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sign In"
-            android:textColor="@color/blue_primary"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <!-- Form Container -->
-    <LinearLayout
-        android:id="@+id/form_container"
-        android:layout_width="320dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tab_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:background="#E3F2FD">
 
-        <!-- Username Input -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/input_background">
+        <!-- ALL DECORATIVE CIRCLES (BACKGROUND LAYER) -->
+        <View
+            android:id="@+id/circle_top_left"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="-40dp"
+            android:layout_marginTop="-40dp"
+            android:background="@drawable/blue_circle" />
 
-            <ImageView
-                android:id="@+id/username_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/ic_person"
-                app:tint="@color/blue_primary" />
+        <View
+            android:id="@+id/circle_top_right"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="180dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/light_blue_circle" />
 
-            <EditText
-                android:id="@+id/username_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="20dp"
-                android:background="@android:color/transparent"
-                android:hint="Username"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint"
-                android:textSize="16sp" />
+        <View
+            android:id="@+id/circle_middle_right"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="-60dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/light_blue_circle" />
 
-        </RelativeLayout>
+        <View
+            android:id="@+id/circle_bottom_left_small"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginBottom="200dp"
+            android:background="@drawable/light_blue_circle" />
 
-        <!-- Password Input -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/input_background">
+        <View
+            android:id="@+id/circle_bottom_left_medium"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/light_blue_circle" />
 
-            <ImageView
-                android:id="@+id/password_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/ic_lock"
-                app:tint="@color/blue_primary" />
+        <View
+            android:id="@+id/circle_bottom_right"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="-70dp"
+            android:layout_marginBottom="-70dp"
+            android:background="@drawable/blue_circle" />
 
-            <EditText
-                android:id="@+id/password_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="20dp"
-                android:background="@android:color/transparent"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint"
-                android:textSize="16sp" />
+        <!-- CONTENT LAYER STARTS HERE -->
 
-        </RelativeLayout>
-
-        <!-- Remember me and Forgot password row -->
+        <!-- Logo Section -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/logo_container"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/remember_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="remember me"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
-                android:buttonTint="@color/blue_primary"
-                android:button="@drawable/checkbox_selector_simple"
-                android:paddingStart="0dp"
-                android:paddingEnd="8dp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:contentDescription="SaintsGate Logo"
+                android:src="@drawable/saints" />
 
             <TextView
-                android:id="@+id/forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forgot your account?"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
-                android:clickable="true"
-                android:focusable="true" />
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="SaintsGate"
+                android:textColor="@color/blue_primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-        <!-- Login Button -->
-        <RelativeLayout
-            android:id="@+id/login_button_container"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/login_button_background"
-            android:clickable="true"
-            android:focusable="true">
+        <!-- Login/Sign Up Tab Layout with CardView -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/tab_card"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logo_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="4dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <!-- Login tab is active -->
+                <TextView
+                    android:id="@+id/login_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/active_tab_background"
+                    android:gravity="center"
+                    android:text="Login"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Sign Up tab is inactive -->
+                <TextView
+                    android:id="@+id/signup_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="Sign Up"
+                    android:textColor="@color/blue_primary"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Form Container -->
+        <LinearLayout
+            android:id="@+id/form_container"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tab_card"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <!-- School ID Input with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="30dp"
-                android:text="Login"
-                android:textColor="@color/blue_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/arrow_button_background"
-                android:padding="8dp"
-                android:src="@drawable/ic_arrow_forward"
-                app:tint="@android:color/white" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
 
-        </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/school_id_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_account"
+                        app:tint="@color/blue_primary" />
 
-    </LinearLayout>
+                    <EditText
+                        android:id="@+id/school_id_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@android:color/transparent"
+                        android:hint="School ID"
+                        android:inputType="text"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="16sp" />
 
-    <!-- Bottom decorative circles -->
-    <View
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="150dp"
-        android:background="@drawable/light_blue_circle" />
+                </RelativeLayout>
 
-    <View
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/light_blue_circle" />
+            </androidx.cardview.widget.CardView>
 
-    <!-- Large blue circle bottom right -->
-    <View
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-50dp"
-        android:layout_marginBottom="-50dp"
-        android:background="@drawable/blue_circle" />
+            <!-- Password Input with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
 
-    <!-- Right side blue circle -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <ImageView
+                        android:id="@+id/password_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_lock"
+                        app:tint="@color/blue_primary" />
+
+                    <EditText
+                        android:id="@+id/password_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="50dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/password_toggle"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:clickable="true"
+                        android:contentDescription="Toggle password visibility"
+                        android:focusable="true"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_visibility_off"
+                        app:tint="@color/text_hint" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Remember me and Forgot password row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/remember_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:buttonTint="@color/blue_primary"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    android:text="remember me"
+                    android:textColor="@color/text_secondary1"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:text="Forgot your account?"
+                    android:textColor="@color/text_secondary1"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <!-- Login Button - Blue Circle with White Arrow -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="end"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@color/blue_primary"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="4dp">
+
+                <RelativeLayout
+                    android:id="@+id/login_button_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="Login"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="@android:color/white" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
-</RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

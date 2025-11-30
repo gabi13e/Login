@@ -1,9 +1,14 @@
 package com.example.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,10 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText fullNameInput, emailInput, usernameInput, passwordInput, confirmPasswordInput;
+    private EditText fullNameInput, emailInput, schoolIdInput, passwordInput, confirmPasswordInput;
     private CheckBox termsCheckbox;
     private RelativeLayout signupButtonContainer;
-    private TextView loginTab, signupTab, termsLink, loginLink;
+    // --- CHANGE 1: Removed loginLink from variable declarations ---
+    private TextView loginTab, signupTab, termsLink;
     private ImageView passwordToggle, confirmPasswordToggle;
 
     private boolean isPasswordVisible = false;
@@ -31,13 +37,13 @@ public class SignUpActivity extends AppCompatActivity {
 
         initializeViews();
         setupClickListeners();
-        setupPasswordToggles();  // Add this line!
+        // The setupPasswordToggles method is no longer needed if using animations that set the initial state
     }
 
     private void initializeViews() {
-        fullNameInput = findViewById(R.id.username_input);
+        fullNameInput = findViewById(R.id.fullname_input);
         emailInput = findViewById(R.id.email_input);
-        usernameInput = findViewById(R.id.username_input);
+        schoolIdInput = findViewById(R.id.schoolid_input);
         passwordInput = findViewById(R.id.password_input);
         confirmPasswordInput = findViewById(R.id.confirm_password_input);
 
@@ -47,68 +53,83 @@ public class SignUpActivity extends AppCompatActivity {
         loginTab = findViewById(R.id.login_tab);
         signupTab = findViewById(R.id.signup_tab);
         termsLink = findViewById(R.id.terms_link);
-        loginLink = findViewById(R.id.login_link);
+
+        // --- CHANGE 2: No longer need to initialize loginLink ---
 
         passwordToggle = findViewById(R.id.password_toggle);
         confirmPasswordToggle = findViewById(R.id.confirm_password_toggle);
     }
 
     private void setupClickListeners() {
+        // Sign up button with animation
         signupButtonContainer.setOnClickListener(v -> {
-            if (validateForm()) {
-                performSignUp();
-            }
+            Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+            v.startAnimation(bounce);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (validateForm()) {
+                    performSignUp();
+                }
+            }, 250);
         });
 
-        loginTab.setOnClickListener(v -> navigateToLogin());
-        loginLink.setOnClickListener(v -> navigateToLogin());
+        // Login tab with animation
+        loginTab.setOnClickListener(v -> {
+            Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+            v.startAnimation(bounce);
+            new Handler(Looper.getMainLooper()).postDelayed(this::navigateToLogin, 250);
+        });
 
-        // Add Terms & Conditions click listener
-        termsLink.setOnClickListener(v -> showTermsAndConditions());
+        // --- CHANGE 3: Removed the click listener for the non-existent loginLink ---
 
-        // Add password toggle click listeners
+        // Terms link with animation
+        termsLink.setOnClickListener(v -> {
+            Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+            v.startAnimation(bounce);
+            new Handler(Looper.getMainLooper()).postDelayed(this::showTermsAndConditions, 250);
+        });
+
         passwordToggle.setOnClickListener(v -> togglePasswordVisibility());
         confirmPasswordToggle.setOnClickListener(v -> toggleConfirmPasswordVisibility());
     }
 
-    // Add this method to set initial state of password toggles
-    private void setupPasswordToggles() {
-        passwordToggle.setImageResource(R.drawable.ic_visibility_off);
-        confirmPasswordToggle.setImageResource(R.drawable.ic_visibility_off);
-    }
-
-    // Add password toggle methods
+    // Using animated toggles
     private void togglePasswordVisibility() {
-        if (isPasswordVisible) {
-            // Hide password
-            passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            passwordToggle.setImageResource(R.drawable.ic_visibility_off);
-            isPasswordVisible = false;
-        } else {
-            // Show password
-            passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            passwordToggle.setImageResource(R.drawable.ic_visibility);
-            isPasswordVisible = true;
-        }
-        // Move cursor to end of text
-        passwordInput.setSelection(passwordInput.getText().length());
+        isPasswordVisible = !isPasswordVisible;
+        animatePasswordToggle(passwordToggle, passwordInput, isPasswordVisible);
     }
 
     private void toggleConfirmPasswordVisibility() {
-        if (isConfirmPasswordVisible) {
-            // Hide password
-            confirmPasswordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            confirmPasswordToggle.setImageResource(R.drawable.ic_visibility_off);
-            isConfirmPasswordVisible = false;
-        } else {
-            // Show password
-            confirmPasswordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            confirmPasswordToggle.setImageResource(R.drawable.ic_visibility);
-            isConfirmPasswordVisible = true;
-        }
-        // Move cursor to end of text
-        confirmPasswordInput.setSelection(confirmPasswordInput.getText().length());
+        isConfirmPasswordVisible = !isConfirmPasswordVisible;
+        animatePasswordToggle(confirmPasswordToggle, confirmPasswordInput, isConfirmPasswordVisible);
     }
+
+    private void animatePasswordToggle(final ImageView toggleIcon, final EditText editText, final boolean isVisible) {
+        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out_rotate);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (isVisible) {
+                    toggleIcon.setImageResource(R.drawable.ic_visibility);
+                    editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    toggleIcon.setImageResource(R.drawable.ic_visibility_off);
+                    editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                Animation fadeIn = AnimationUtils.loadAnimation(SignUpActivity.this, R.anim.fade_in_rotate);
+                toggleIcon.startAnimation(fadeIn);
+                editText.setSelection(editText.getText().length());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        toggleIcon.startAnimation(fadeOut);
+    }
+
+    // ... (Your validateForm, performSignUp, and other methods remain the same)
 
     private boolean validateForm() {
         if (fullNameInput.getText().toString().trim().isEmpty()) {
@@ -119,12 +140,16 @@ public class SignUpActivity extends AppCompatActivity {
             emailInput.setError("Email is required");
             return false;
         }
-        if (usernameInput.getText().toString().trim().isEmpty()) {
-            usernameInput.setError("Username is required");
+        if (schoolIdInput.getText().toString().trim().isEmpty()) {
+            schoolIdInput.setError("School ID is required");
             return false;
         }
         if (passwordInput.getText().toString().isEmpty()) {
             passwordInput.setError("Password is required");
+            return false;
+        }
+        if (confirmPasswordInput.getText().toString().isEmpty()) {
+            confirmPasswordInput.setError("Please confirm your password");
             return false;
         }
         if (!passwordInput.getText().toString().equals(confirmPasswordInput.getText().toString())) {
@@ -142,42 +167,23 @@ public class SignUpActivity extends AppCompatActivity {
         signupButtonContainer.setEnabled(false);
         Toast.makeText(this, "Creating account...", Toast.LENGTH_SHORT).show();
 
-        String fullName = fullNameInput.getText().toString().trim();
-        String email = emailInput.getText().toString().trim();
-        String username = usernameInput.getText().toString().trim();
+        String schoolId = schoolIdInput.getText().toString().trim();
         String password = passwordInput.getText().toString();
-        String confirmPassword = confirmPasswordInput.getText().toString();
-
-        // Simple validation
-        if (fullName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            signupButtonContainer.setEnabled(true);
-            return;
-        }
-
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-            signupButtonContainer.setEnabled(true);
-            return;
-        }
 
         new Thread(() -> {
             try {
                 Thread.sleep(1500); // Simulate network delay
 
                 runOnUiThread(() -> {
-                    // Save username + password into SharedPreferences
-                    getSharedPreferences("user_prefs", MODE_PRIVATE)
-                            .edit()
-                            .putString("registered_username", username)
-                            .putString("registered_password", password)
-                            .apply();
+                    SharedPreferences.Editor editor = getSharedPreferences("user_prefs", MODE_PRIVATE).edit();
+                    editor.putString("registered_school_id", schoolId);
+                    editor.putString("registered_password", password);
+                    editor.apply();
 
                     Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
 
-                    // Send username back to LoginActivity so it shows in the field
                     Intent intent = new Intent(this, LoginActivity.class);
-                    intent.putExtra("registered_username", username);
+                    intent.putExtra("registered_school_id", schoolId);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
@@ -199,6 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void showTermsAndConditions() {
+        // Assuming you have a TermsAndConditionsActivity
         Intent intent = new Intent(this, TermsAndConditionsActivity.class);
         startActivity(intent);
     }

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="light_background">#F5F7FA</color>
-    <color name="blue_primary">#4A90E2</color>
-    <color name="blue_light">#87CEEB</color>
-    <color name="text_primary">#333333</color>
-    <color name="text_secondary">#999999</color>
-    <color name="text_hint">#BBBBBB</color>
-    <color name="input_background">#FFFFFF</color>
+    <!-- Primary blue for active elements -->
+    <color name="blue_primary">#87CEFB</color>
+    <color name="blue_primary1">#134A79</color>
+
+    <!-- Light blue for decorative circles -->
+    <color name="blue_light">#B0DAFF</color>
+    <color name="blue_light1">#B3E8FF</color>
+
+    <!-- Background color -->
+    <color name="light_background">#D5D5D5</color>
+
+
+
+    <!-- Text colors -->
+    <color name="text_primary">#4A5568</color>
+    <color name="text_secondary">#A0AEC0</color>
+    <color name="text_secondary1">#134A79</color>
+    <color name="text_hint">#CBD5E0</color>
+    <color name="input_border">#E0E7EF</color>
 </resources>
