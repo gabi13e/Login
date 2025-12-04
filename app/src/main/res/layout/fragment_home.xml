@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3F2FD"
-    tools:context=".MainActivity">
+    android:background="#E3F2FD">
 
-    <!-- Fragment Container -->
+    <!-- Fragment container -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_nav_card" />
+        android:layout_above="@id/bottom_nav_card" />
 
     <!-- Bottom Navigation Bar -->
     <androidx.cardview.widget.CardView
@@ -43,27 +40,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:clickable="true"
-                android:focusable="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/nav_home"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:contentDescription="Home"
-                    android:src="@drawable/ic_home"
-                    app:tint="@color/blue_primary" />
+                    android:src="@drawable/ic_home" />
 
                 <TextView
-                    android:id="@+id/nav_home_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:text="Home"
-                    android:textColor="@color/blue_primary"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:textSize="11sp" />
 
             </LinearLayout>
 
@@ -74,25 +63,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:clickable="true"
-                android:focusable="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/nav_courses"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:contentDescription="Courses"
-                    android:src="@drawable/ic_book"
-                    app:tint="@color/gray" />
+                    android:src="@drawable/ic_book" />
 
                 <TextView
-                    android:id="@+id/nav_courses_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:text="Courses"
-                    android:textColor="@color/gray"
                     android:textSize="11sp" />
 
             </LinearLayout>
@@ -104,25 +86,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:clickable="true"
-                android:focusable="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/nav_grades"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:contentDescription="Grades"
-                    android:src="@drawable/ic_grade"
-                    app:tint="@color/gray" />
+                    android:src="@drawable/ic_grade" />
 
                 <TextView
-                    android:id="@+id/nav_grades_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:text="Grades"
-                    android:textColor="@color/gray"
                     android:textSize="11sp" />
 
             </LinearLayout>
@@ -134,25 +109,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:clickable="true"
-                android:focusable="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/nav_profile"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:contentDescription="Profile"
-                    android:src="@drawable/ic_person"
-                    app:tint="@color/gray" />
+                    android:src="@drawable/ic_person" />
 
                 <TextView
-                    android:id="@+id/nav_profile_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     android:text="Profile"
-                    android:textColor="@color/gray"
                     android:textSize="11sp" />
 
             </LinearLayout>

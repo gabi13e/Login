@@ -1,3 +1,66 @@
 <resources>
-    <string name="app_name">Login</string>
+    <string name="app_name">SaintsGate</string>
+
+    <!-- Navigation Drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Menu Items -->
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_users">Users</string>
+    <string name="menu_attendance">Attendance</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_logout">Logout</string>
+
+    <!-- Form Prompts -->
+    <string name="role_prompt">Select Role</string>
+    <string name="department_prompt">Select Department</string>
+    <string name="yearlevel_prompt">Select Year Level</string>
+
+    <!-- Role Options -->
+    <string-array name="role_options">
+        <item>student</item>
+        <item>teacher</item>
+    </string-array>
+
+    <!-- Role Array for Spinner -->
+    <string-array name="role_array">
+        <item>Select Role</item>
+        <item>Student</item>
+        <item>Teacher</item>
+    </string-array>
+
+    <!-- Department Array -->
+    <string-array name="department_array">
+        <item>Select Department</item>
+        <item>Senior High</item>
+        <item>Information Technology</item>
+        <item>Engineering</item>
+        <item>Business Administration</item>
+        <item>Teacher Education</item>
+        <item>Physical Education</item>
+        <item>Nursing</item>
+        <item>Criminology</item>
+        <item>Hospitality Management</item>
+    </string-array>
+
+    <!-- Year Level Array -->
+    <string-array name="yearlevel_array">
+        <item>Select Year Level</item>
+        <item>1st Year</item>
+        <item>2nd Year</item>
+        <item>3rd Year</item>
+        <item>4th Year</item>
+        <item>5th Year</item>
+    </string-array>
+
+    <string-array name="sort_options">
+        <item>Name (A-Z)</item>
+        <item>Name (Z-A)</item>
+        <item>School ID</item>
+        <item>Year Level</item>
+        <item>Department</item>
+        <item>Recently Added</item>
+    </string-array>
 </resources>

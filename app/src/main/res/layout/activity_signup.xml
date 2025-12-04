@@ -165,7 +165,7 @@
             android:layout_marginTop="25dp"
             android:orientation="vertical">
 
-            <!-- Full Name Input with CardView -->
+            <!-- First Name Input with CardView -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                     android:layout_height="55dp">
 
                     <ImageView
-                        android:id="@+id/fullname_icon"
+                        android:id="@+id/firstname_icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentStart="true"
@@ -189,13 +189,93 @@
                         app:tint="@color/blue_primary" />
 
                     <EditText
-                        android:id="@+id/fullname_input"
+                        android:id="@+id/firstname_input"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="60dp"
                         android:layout_marginEnd="20dp"
                         android:background="@android:color/transparent"
-                        android:hint="Full Name"
+                        android:hint="First Name"
+                        android:inputType="textPersonName|textCapWords"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Middle Name Input with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <ImageView
+                        android:id="@+id/middlename_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/blue_primary" />
+
+                    <EditText
+                        android:id="@+id/middlename_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Middle Name"
+                        android:inputType="textPersonName|textCapWords"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Last Name Input with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <ImageView
+                        android:id="@+id/lastname_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/blue_primary" />
+
+                    <EditText
+                        android:id="@+id/lastname_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Last Name"
                         android:inputType="textPersonName|textCapWords"
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_hint"
@@ -235,7 +315,7 @@
                         android:layout_marginStart="60dp"
                         android:layout_marginEnd="20dp"
                         android:background="@android:color/transparent"
-                        android:hint="Email Address"
+                        android:hint="School Email"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_hint"
@@ -253,7 +333,6 @@
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="28dp"
                 app:cardElevation="3dp">
-                <!-- The incorrect line "android:out" has been removed from here -->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -286,7 +365,119 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- Role Spinner (Student/Teacher) with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <ImageView
+                        android:id="@+id/role_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/blue_primary" />
+
+                    <Spinner
+                        android:id="@+id/role_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@android:color/transparent"
+                        android:entries="@array/role_array"
+                        android:prompt="@string/role_prompt"
+                        android:spinnerMode="dropdown" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Department Input with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <ImageView
+                        android:id="@+id/department_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_account"
+                        app:tint="@color/blue_primary" />
+
+                    <Spinner
+                        android:id="@+id/department_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@android:color/transparent"
+                        android:entries="@array/department_array"
+                        android:prompt="@string/department_prompt"
+                        android:spinnerMode="dropdown" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Year Level Spinner with CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <ImageView
+                        android:id="@+id/yearlevel_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_account"
+                        app:tint="@color/blue_primary" />
+
+                    <Spinner
+                        android:id="@+id/yearlevel_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@android:color/transparent"
+                        android:entries="@array/yearlevel_array"
+                        android:prompt="@string/yearlevel_prompt"
+                        android:spinnerMode="dropdown" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <!-- Password Input with CardView -->
             <androidx.cardview.widget.CardView
@@ -440,7 +631,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="end"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
                 app:cardBackgroundColor="@color/blue_primary"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="4dp">
@@ -464,8 +655,6 @@
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
-
-
 
         </LinearLayout>
 

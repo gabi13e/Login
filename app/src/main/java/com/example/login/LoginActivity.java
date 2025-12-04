@@ -1,13 +1,10 @@
 package com.example.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.text.InputType;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,16 +12,35 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText schoolIdInput, passwordInput;
-    private CheckBox rememberCheckbox;
-    private RelativeLayout loginButtonContainer;
-    // --- CHANGE 1: Removed signupLink from the variable declarations ---
-    private TextView loginTab, signupTab, forgotPassword;
+    private FirebaseAuth auth;
+    private DatabaseReference database;
+
+    private EditText schoolIdInput;
+    private EditText passwordInput;
     private ImageView passwordToggle;
+    private CheckBox rememberCheckbox;
+    private TextView forgotPassword;
+    private RelativeLayout loginButton;
+    private CardView adminLoginCard;
+    private TextView signupTab;
+
     private boolean isPasswordVisible = false;
 
     @Override
@@ -32,152 +48,265 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Initialize Firebase
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
+
+        // Initialize views
         initializeViews();
-        setupClickListeners();
-        checkForRegistrationData();
+
+        // Set up listeners
+        setupListeners();
+
+        // Check if user is already logged in
+        checkRememberMe();
     }
 
     private void initializeViews() {
         schoolIdInput = findViewById(R.id.school_id_input);
         passwordInput = findViewById(R.id.password_input);
-        rememberCheckbox = findViewById(R.id.remember_checkbox);
-        loginButtonContainer = findViewById(R.id.login_button_container);
-        loginTab = findViewById(R.id.login_tab);
-        signupTab = findViewById(R.id.signup_tab);
-        forgotPassword = findViewById(R.id.forgot_password);
         passwordToggle = findViewById(R.id.password_toggle);
-        // --- CHANGE 2: The line initializing signupLink is no longer needed ---
+        rememberCheckbox = findViewById(R.id.remember_checkbox);
+        forgotPassword = findViewById(R.id.forgot_password);
+        loginButton = findViewById(R.id.login_button_container);
+        adminLoginCard = findViewById(R.id.admin_login_card);
+        signupTab = findViewById(R.id.signup_tab);
     }
 
-    private void setupClickListeners() {
-        loginButtonContainer.setOnClickListener(v -> {
-            Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
-            v.startAnimation(bounce);
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (validateForm()) {
-                    performLogin();
-                }
-            }, 250);
+    private void setupListeners() {
+        // Password visibility toggle
+        passwordToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
         });
 
-        signupTab.setOnClickListener(v -> {
-            Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
-            v.startAnimation(bounce);
-            new Handler(Looper.getMainLooper()).postDelayed(this::navigateToSignUp, 250);
+        // Login button
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performLogin();
+            }
         });
 
-        // --- CHANGE 3: Removed the click listener for the non-existent signupLink ---
-
-        forgotPassword.setOnClickListener(v -> {
-            Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
-            v.startAnimation(bounce);
-            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                            Toast.makeText(this, "Forgot password coming soon!", Toast.LENGTH_SHORT).show()
-                    , 250);
+        // Admin login
+        adminLoginCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToAdminLogin();
+            }
         });
 
-        passwordToggle.setOnClickListener(v -> togglePasswordVisibility());
+        // Forgot password
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleForgotPassword();
+            }
+        });
+
+        // Sign up tab
+        signupTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToSignUp();
+            }
+        });
     }
 
     private void togglePasswordVisibility() {
-        isPasswordVisible = !isPasswordVisible;
-        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out_rotate);
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {}
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (isPasswordVisible) {
-                    passwordToggle.setImageResource(R.drawable.ic_visibility);
-                    passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                } else {
-                    passwordToggle.setImageResource(R.drawable.ic_visibility_off);
-                    passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
-                Animation fadeIn = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_in_rotate);
-                passwordToggle.startAnimation(fadeIn);
-                passwordInput.setSelection(passwordInput.getText().length());
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
-        passwordToggle.startAnimation(fadeOut);
-    }
-
-    // ... (The rest of your methods for login logic remain the same) ...
-
-    private void checkForRegistrationData() {
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("registered_school_id")) {
-            String schoolId = intent.getStringExtra("registered_school_id");
-            if (schoolId != null) {
-                schoolIdInput.setText(schoolId);
-                Toast.makeText(this, "Account created successfully! Please login.", Toast.LENGTH_LONG).show();
-            }
+        if (isPasswordVisible) {
+            // Hide password
+            passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordToggle.setImageResource(R.drawable.ic_visibility_off);
+            isPasswordVisible = false;
+        } else {
+            // Show password
+            passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            passwordToggle.setImageResource(R.drawable.ic_visibility);
+            isPasswordVisible = true;
         }
-    }
-
-    private boolean validateForm() {
-        boolean isValid = true;
-        String schoolId = schoolIdInput.getText().toString().trim();
-        if (schoolId.isEmpty()) {
-            schoolIdInput.setError("School ID is required");
-            isValid = false;
-        }
-
-        String password = passwordInput.getText().toString();
-        if (password.isEmpty()) {
-            passwordInput.setError("Password is required");
-            isValid = false;
-        }
-        return isValid;
+        // Move cursor to end
+        passwordInput.setSelection(passwordInput.getText().length());
     }
 
     private void performLogin() {
-        loginButtonContainer.setEnabled(false);
+        String schoolId = schoolIdInput.getText().toString().trim();
+        String password = passwordInput.getText().toString().trim();
+
+        // Validation
+        if (schoolId.isEmpty()) {
+            schoolIdInput.setError("School ID is required");
+            schoolIdInput.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            passwordInput.setError("Password is required");
+            passwordInput.requestFocus();
+            return;
+        }
+
+        // Show loading
+        loginButton.setEnabled(false);
         Toast.makeText(this, "Logging in...", Toast.LENGTH_SHORT).show();
 
-        String schoolId = schoolIdInput.getText().toString().trim();
-        String password = passwordInput.getText().toString();
+        // Check user in Firebase Database
+        Query query = database.child("users").orderByChild("schoolId").equalTo(schoolId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        String userEmail = userSnapshot.child("email").getValue(String.class);
+                        String userRole = userSnapshot.child("role").getValue(String.class);
 
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-                runOnUiThread(() -> {
-                    if (authenticateUser(schoolId, password)) {
-                        Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        // TODO: Navigate to the main activity/dashboard after successful login
-                    } else {
-                        Toast.makeText(this, "Invalid School ID or password", Toast.LENGTH_SHORT).show();
-                        loginButtonContainer.setEnabled(true);
-                        passwordInput.setText("");
+                        if (userEmail != null) {
+                            // Sign in with Firebase Auth
+                            signInWithEmail(userEmail, password, userRole != null ? userRole : "student");
+                        }
                     }
-                });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-                    loginButtonContainer.setEnabled(true);
-                });
+                } else {
+                    loginButton.setEnabled(true);
+                    Toast.makeText(LoginActivity.this, "School ID not found", Toast.LENGTH_SHORT).show();
+                }
             }
-        }).start();
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                loginButton.setEnabled(true);
+                Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private boolean authenticateUser(String schoolId, String password) {
-        String storedSchoolId = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                .getString("registered_school_id", null);
-        String storedPassword = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                .getString("registered_password", null);
+    private void signInWithEmail(String email, String password, String role) {
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        loginButton.setEnabled(true);
+                        if (task.isSuccessful()) {
+                            // Save remember me preference
+                            if (rememberCheckbox.isChecked()) {
+                                saveRememberMe(true);
+                            }
 
-        return storedSchoolId != null && storedPassword != null &&
-                storedSchoolId.equals(schoolId) && storedPassword.equals(password);
+                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                            // Navigate based on role
+                            navigateToHome(role);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void navigateToHome(String role) {
+        Intent intent;
+        if ("admin".equals(role)) {
+            intent = new Intent(this, AdminDashboardActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void navigateToAdminLogin() {
+        Intent intent = new Intent(this, AdminLoginActivity.class);
+        startActivity(intent);
     }
 
     private void navigateToSignUp() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
-        finish();
+    }
+
+    private void handleForgotPassword() {
+        String schoolId = schoolIdInput.getText().toString().trim();
+
+        if (schoolId.isEmpty()) {
+            Toast.makeText(this, "Please enter your School ID", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Find email by school ID
+        Query query = database.child("users").orderByChild("schoolId").equalTo(schoolId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        String email = userSnapshot.child("email").getValue(String.class);
+                        if (email != null) {
+                            sendPasswordResetEmail(email);
+                        }
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, "School ID not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void sendPasswordResetEmail(String email) {
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this,
+                                    "Password reset email sent to " + email,
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this,
+                                    "Failed to send reset email",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void saveRememberMe(boolean remember) {
+        SharedPreferences sharedPref = getSharedPreferences("SaintsGatePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("remember_me", remember);
+        editor.apply();
+    }
+
+    private void checkRememberMe() {
+        SharedPreferences sharedPref = getSharedPreferences("SaintsGatePrefs", MODE_PRIVATE);
+        boolean rememberMe = sharedPref.getBoolean("remember_me", false);
+
+        if (rememberMe && auth.getCurrentUser() != null) {
+            // User is already logged in
+            getUserRoleAndNavigate(auth.getCurrentUser().getUid());
+        }
+    }
+
+    private void getUserRoleAndNavigate(String uid) {
+        database.child("users").child(uid).child("role")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String role = snapshot.getValue(String.class);
+                        navigateToHome(role != null ? role : "student");
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Default to student if error
+                        navigateToHome("student");
+                    }
+                });
     }
 }
