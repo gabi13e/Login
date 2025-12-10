@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
+
     private FirebaseAuth auth;
     private DatabaseReference database;
 
@@ -38,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox rememberCheckbox;
     private TextView forgotPassword;
     private RelativeLayout loginButton;
-    private CardView adminLoginCard;
+    private LinearLayout adminLoginContainer;
     private TextView signupTab;
 
     private boolean isPasswordVisible = false;
@@ -46,73 +50,122 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        // Initialize Firebase
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        try {
+            setContentView(R.layout.activity_login);
+            Log.d(TAG, "LoginActivity created");
 
-        // Initialize views
-        initializeViews();
+            // Initialize Firebase
+            auth = FirebaseAuth.getInstance();
+            database = FirebaseDatabase.getInstance().getReference();
 
-        // Set up listeners
-        setupListeners();
+            // Initialize views
+            initializeViews();
 
-        // Check if user is already logged in
-        checkRememberMe();
+            // Set up listeners
+            setupListeners();
+
+            // Check if user is already logged in
+            checkRememberMe();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error in onCreate: ", e);
+            Toast.makeText(this, "Error initializing login: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initializeViews() {
-        schoolIdInput = findViewById(R.id.school_id_input);
-        passwordInput = findViewById(R.id.password_input);
-        passwordToggle = findViewById(R.id.password_toggle);
-        rememberCheckbox = findViewById(R.id.remember_checkbox);
-        forgotPassword = findViewById(R.id.forgot_password);
-        loginButton = findViewById(R.id.login_button_container);
-        adminLoginCard = findViewById(R.id.admin_login_card);
-        signupTab = findViewById(R.id.signup_tab);
+        try {
+            schoolIdInput = findViewById(R.id.school_id_input);
+            passwordInput = findViewById(R.id.password_input);
+            passwordToggle = findViewById(R.id.password_toggle);
+            rememberCheckbox = findViewById(R.id.remember_checkbox);
+            forgotPassword = findViewById(R.id.forgot_password);
+            loginButton = findViewById(R.id.login_button_container);
+            adminLoginContainer = findViewById(R.id.admin_login_container);
+            signupTab = findViewById(R.id.signup_tab);
+
+            // Check for null views
+            if (schoolIdInput == null) Log.e(TAG, "schoolIdInput is NULL!");
+            if (passwordInput == null) Log.e(TAG, "passwordInput is NULL!");
+            if (loginButton == null) Log.e(TAG, "loginButton is NULL!");
+            if (adminLoginContainer == null) Log.e(TAG, "adminLoginContainer is NULL!");
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing views: ", e);
+        }
     }
 
     private void setupListeners() {
-        // Password visibility toggle
-        passwordToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                togglePasswordVisibility();
+        try {
+            // Password visibility toggle
+            if (passwordToggle != null) {
+                passwordToggle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        togglePasswordVisibility();
+                    }
+                });
             }
-        });
 
-        // Login button
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performLogin();
+            // Login button
+            if (loginButton != null) {
+                loginButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            performLogin();
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error in performLogin: ", e);
+                            Toast.makeText(LoginActivity.this, "Login error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            loginButton.setEnabled(true);
+                        }
+                    }
+                });
             }
-        });
 
-        // Admin login
-        adminLoginCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToAdminLogin();
+            // Admin login container
+            if (adminLoginContainer != null) {
+                adminLoginContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "Admin login clicked!");
+                        try {
+                            Intent intent = new Intent(LoginActivity.this, AdminLoginActivity.class);
+                            startActivity(intent);
+                            Log.d(TAG, "Started AdminLoginActivity");
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error starting AdminLoginActivity: ", e);
+                            Toast.makeText(LoginActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            } else {
+                Log.e(TAG, "adminLoginContainer is NULL - check XML id!");
             }
-        });
 
-        // Forgot password
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleForgotPassword();
+            // Forgot password
+            if (forgotPassword != null) {
+                forgotPassword.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handleForgotPassword();
+                    }
+                });
             }
-        });
 
-        // Sign up tab
-        signupTab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToSignUp();
+            // Sign up tab
+            if (signupTab != null) {
+                signupTab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigateToSignUp();
+                    }
+                });
             }
-        });
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up listeners: ", e);
+        }
     }
 
     private void togglePasswordVisibility() {
@@ -135,6 +188,10 @@ public class LoginActivity extends AppCompatActivity {
         String schoolId = schoolIdInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
+        Log.d(TAG, "========== LOGIN ATTEMPT ==========");
+        Log.d(TAG, "School ID entered: '" + schoolId + "'");
+        Log.d(TAG, "Password length: " + password.length());
+
         // Validation
         if (schoolId.isEmpty()) {
             schoolIdInput.setError("School ID is required");
@@ -152,52 +209,93 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setEnabled(false);
         Toast.makeText(this, "Logging in...", Toast.LENGTH_SHORT).show();
 
+        Log.d(TAG, "Querying database for schoolId: " + schoolId);
+
         // Check user in Firebase Database
         Query query = database.child("users").orderByChild("schoolId").equalTo(schoolId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        String userEmail = userSnapshot.child("email").getValue(String.class);
-                        String userRole = userSnapshot.child("role").getValue(String.class);
+                try {
+                    Log.d(TAG, "========== DATABASE QUERY RESULT ==========");
+                    Log.d(TAG, "Snapshot exists: " + snapshot.exists());
+                    Log.d(TAG, "Snapshot children count: " + snapshot.getChildrenCount());
 
-                        if (userEmail != null) {
-                            // Sign in with Firebase Auth
-                            signInWithEmail(userEmail, password, userRole != null ? userRole : "student");
+                    if (snapshot.exists()) {
+                        Log.d(TAG, "School ID found in database!");
+
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            String userId = userSnapshot.getKey();
+                            String userEmail = userSnapshot.child("email").getValue(String.class);
+                            String userRole = userSnapshot.child("role").getValue(String.class);
+                            String storedSchoolId = userSnapshot.child("schoolId").getValue(String.class);
+
+                            Log.d(TAG, "User ID: " + userId);
+                            Log.d(TAG, "User email: " + userEmail);
+                            Log.d(TAG, "User role: " + userRole);
+                            Log.d(TAG, "Stored schoolId: '" + storedSchoolId + "'");
+
+                            if (userEmail != null) {
+                                // Sign in with Firebase Auth
+                                signInWithEmail(userEmail, password, userRole != null ? userRole : "Student");
+                                return; // Exit after first match
+                            } else {
+                                Log.e(TAG, "Email is NULL for this user!");
+                            }
                         }
+                    } else {
+                        Log.w(TAG, "School ID NOT found in database");
+                        Log.d(TAG, "Snapshot value: " + snapshot.getValue());
+                        loginButton.setEnabled(true);
+                        Toast.makeText(LoginActivity.this, "School ID not found. Please check and try again.", Toast.LENGTH_LONG).show();
                     }
-                } else {
+                } catch (Exception e) {
+                    Log.e(TAG, "Error processing database result: ", e);
                     loginButton.setEnabled(true);
-                    Toast.makeText(LoginActivity.this, "School ID not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "========== DATABASE ERROR ==========");
+                Log.e(TAG, "Error code: " + error.getCode());
+                Log.e(TAG, "Error message: " + error.getMessage());
+                Log.e(TAG, "Error details: " + error.getDetails());
+
                 loginButton.setEnabled(true);
-                Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void signInWithEmail(String email, String password, String role) {
+        Log.d(TAG, "Signing in with email authentication");
+
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         loginButton.setEnabled(true);
                         if (task.isSuccessful()) {
-                            // Save remember me preference
-                            if (rememberCheckbox.isChecked()) {
-                                saveRememberMe(true);
+                            Log.d(TAG, "Login successful!");
+
+                            try {
+                                // Save remember me preference
+                                if (rememberCheckbox.isChecked()) {
+                                    saveRememberMe(true);
+                                }
+
+                                Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                                // Navigate based on role
+                                navigateToHome(role);
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error after successful login: ", e);
+                                Toast.makeText(LoginActivity.this, "Navigation error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
-
-                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-
-                            // Navigate based on role
-                            navigateToHome(role);
                         } else {
+                            Log.e(TAG, "Login failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"));
                             Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -205,25 +303,46 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToHome(String role) {
-        Intent intent;
-        if ("admin".equals(role)) {
-            intent = new Intent(this, AdminDashboardActivity.class);
-        } else {
-            intent = new Intent(this, MainActivity.class);
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
+        Log.d(TAG, "Navigating to home with role: " + role);
 
-    private void navigateToAdminLogin() {
-        Intent intent = new Intent(this, AdminLoginActivity.class);
-        startActivity(intent);
+        try {
+            Intent intent;
+
+            if ("admin".equalsIgnoreCase(role) || "Admin".equals(role)) {
+                // Navigate to Admin Dashboard
+                intent = new Intent(this, MainActivity.class); // Replace with AdminDashboardActivity when ready
+                Log.d(TAG, "Admin role detected, navigating to MainActivity");
+
+            } else if ("teacher".equalsIgnoreCase(role) || "Teacher".equals(role)) {
+                // Navigate to Teacher Dashboard
+                intent = new Intent(this, TeacherMainActivity.class);
+                Log.d(TAG, "Teacher role detected, navigating to TeacherMainActivity");
+
+            } else {
+                // Navigate to Student Dashboard
+                intent = new Intent(this, MainActivity.class);
+                Log.d(TAG, "Student role detected, navigating to MainActivity");
+            }
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error navigating to home: ", e);
+            Toast.makeText(this, "Navigation error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void navigateToSignUp() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
+        Log.d(TAG, "Navigating to SignUp");
+        try {
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "Error navigating to SignUp: ", e);
+            Toast.makeText(this, "SignUp not available: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void handleForgotPassword() {
@@ -233,6 +352,8 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter your School ID", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        Log.d(TAG, "Processing forgot password for School ID: " + schoolId);
 
         // Find email by school ID
         Query query = database.child("users").orderByChild("schoolId").equalTo(schoolId);
@@ -259,15 +380,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendPasswordResetEmail(String email) {
+        Log.d(TAG, "Sending password reset email to: " + email);
+
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            Log.d(TAG, "Password reset email sent successfully");
                             Toast.makeText(LoginActivity.this,
                                     "Password reset email sent to " + email,
                                     Toast.LENGTH_LONG).show();
                         } else {
+                            Log.e(TAG, "Failed to send password reset email");
                             Toast.makeText(LoginActivity.this,
                                     "Failed to send reset email",
                                     Toast.LENGTH_SHORT).show();
@@ -281,31 +406,39 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("remember_me", remember);
         editor.apply();
+        Log.d(TAG, "Remember me saved: " + remember);
     }
 
     private void checkRememberMe() {
         SharedPreferences sharedPref = getSharedPreferences("SaintsGatePrefs", MODE_PRIVATE);
         boolean rememberMe = sharedPref.getBoolean("remember_me", false);
 
+        Log.d(TAG, "Checking remember me: " + rememberMe);
+
         if (rememberMe && auth.getCurrentUser() != null) {
+            Log.d(TAG, "User already logged in, auto-navigating");
             // User is already logged in
             getUserRoleAndNavigate(auth.getCurrentUser().getUid());
         }
     }
 
     private void getUserRoleAndNavigate(String uid) {
+        Log.d(TAG, "Getting user role for UID: " + uid);
+
         database.child("users").child(uid).child("role")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String role = snapshot.getValue(String.class);
-                        navigateToHome(role != null ? role : "student");
+                        Log.d(TAG, "Retrieved role: " + role);
+                        navigateToHome(role != null ? role : "Student");
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "Error getting user role: " + error.getMessage());
                         // Default to student if error
-                        navigateToHome("student");
+                        navigateToHome("Student");
                     }
                 });
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- Solid green color for the 'online' status -->
+    <solid android:color="#4CAF50" />
+
+    <!-- Optional: Add a small white border to make it pop -->
+    <stroke
+        android:width="2dp"
+        android:color="@android:color/white" />
+
+</shape>

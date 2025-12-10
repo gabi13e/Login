@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "173570372268",
+    "project_id": "saintsgateportal",
+    "storage_bucket": "saintsgateportal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173570372268:android:01cc5bbd4365f8c8b76509",
+        "android_client_info": {
+          "package_name": "com.example.login"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNag0RXWnfXuCQXKHVI9Q1BlLJUKSwiCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

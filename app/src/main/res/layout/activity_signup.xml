@@ -73,6 +73,18 @@
             android:layout_marginBottom="-70dp"
             android:background="@drawable/blue_circle" />
 
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="@color/blue_primary1" />
 
         <!-- CONTENT LAYER STARTS HERE -->
 
@@ -163,6 +175,7 @@
             android:layout_below="@id/tab_card"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical">
 
             <!-- First Name Input with CardView -->
@@ -235,7 +248,7 @@
                         android:layout_marginStart="60dp"
                         android:layout_marginEnd="20dp"
                         android:background="@android:color/transparent"
-                        android:hint="Middle Name"
+                        android:hint="Middle Name (Optional)"
                         android:inputType="textPersonName|textCapWords"
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_hint"
@@ -279,6 +292,7 @@
                         android:inputType="textPersonName|textCapWords"
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_hint"
+
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -397,6 +411,8 @@
                         android:background="@android:color/transparent"
                         android:entries="@array/role_array"
                         android:prompt="@string/role_prompt"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
                         android:spinnerMode="dropdown" />
 
                 </RelativeLayout>
@@ -435,6 +451,8 @@
                         android:background="@android:color/transparent"
                         android:entries="@array/department_array"
                         android:prompt="@string/department_prompt"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
                         android:spinnerMode="dropdown" />
 
                 </RelativeLayout>
@@ -473,6 +491,8 @@
                         android:background="@android:color/transparent"
                         android:entries="@array/yearlevel_array"
                         android:prompt="@string/yearlevel_prompt"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
                         android:spinnerMode="dropdown" />
 
                 </RelativeLayout>

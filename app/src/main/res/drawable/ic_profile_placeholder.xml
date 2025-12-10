@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Layer 1: A solid gray circular background -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#E3F2FD" /> <!-- A light gray color -->
+        </shape>
+    </item>
+
+    <!-- Layer 2: The profile icon, centered and scaled down -->
+    <item
+        android:drawable="@drawable/ic_profile"
+        android:gravity="center"
+        android:width="48dp"
+        android:height="48dp"
+        android:color="#4FC3F7"/>
+
+</layer-list>

@@ -274,7 +274,7 @@
                     android:buttonTint="@color/blue_primary"
                     android:paddingStart="0dp"
                     android:paddingEnd="8dp"
-                    android:text="remember me"
+                    android:text="Remember me"
                     android:textColor="@color/text_secondary1"
                     android:textSize="14sp" />
 
@@ -388,6 +388,7 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
+                    android:id="@+id/admin_login_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"

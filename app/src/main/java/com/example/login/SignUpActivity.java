@@ -2,7 +2,10 @@ package com.example.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -13,14 +16,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignUpActivity extends AppCompatActivity {
+
+    private static final String TAG = "SignUpActivity";
 
     private EditText firstnameInput, middlenameInput, lastnameInput, emailInput, schoolIdInput, passwordInput, confirmPasswordInput;
     private Spinner roleSpinner, departmentSpinner, yearlevelSpinner;
@@ -82,7 +92,18 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         // Sign Up button
-        signupButtonContainer.setOnClickListener(v -> signUpUser());
+        signupButtonContainer.setOnClickListener(v -> {
+            Log.d(TAG, "Sign Up button clicked!");
+            signUpUser();
+        });
+
+        ImageView backArrow = findViewById(R.id.back_arrow);
+        backArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
     }
 
     private void setupSpinnerListeners() {
@@ -91,19 +112,32 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedRole = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "Role selected: " + selectedRole);
+
+                // Disable Year Level spinner if Teacher is selected
+                if (selectedRole.equalsIgnoreCase("Teacher")) {
+                    yearlevelSpinner.setSelection(0);
+                    yearlevelSpinner.setEnabled(false);
+                    selectedYearLevel = "";
+                } else {
+                    yearlevelSpinner.setEnabled(true);
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selectedRole = "";
+                yearlevelSpinner.setEnabled(true);
             }
         });
+
 
         // Department Spinner
         departmentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedDepartment = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "Department selected: " + selectedDepartment);
             }
 
             @Override
@@ -117,6 +151,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedYearLevel = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "Year Level selected: " + selectedYearLevel);
             }
 
             @Override
@@ -128,98 +163,156 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void togglePassword(EditText editText, ImageView toggleIcon) {
         int selection = editText.getSelectionEnd();
-        // Check if password is currently visible or hidden
         if (editText.getInputType() == (android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
-            // If visible, hide it
             editText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
             toggleIcon.setImageResource(R.drawable.ic_visibility_off);
         } else {
-            // If hidden, show it
             editText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             toggleIcon.setImageResource(R.drawable.ic_visibility);
         }
-        // Restore cursor position
         editText.setSelection(selection);
     }
 
     private void signUpUser() {
+        Log.d(TAG, "========== SIGN UP STARTED ==========");
+
         String firstname = firstnameInput.getText().toString().trim();
-        String middlename = middlenameInput.getText().toString().trim();
+        String middlename = middlenameInput.getText().toString().trim(); // OPTIONAL NOW
         String lastname = lastnameInput.getText().toString().trim();
         String email = emailInput.getText().toString().trim();
         String schoolId = schoolIdInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
         String confirmPassword = confirmPasswordInput.getText().toString().trim();
 
-        // Validation
+        Log.d(TAG, "Validating inputs...");
+
+        // Validation - MIDDLE NAME IS NOW OPTIONAL
         if (TextUtils.isEmpty(firstname) || TextUtils.isEmpty(lastname) || TextUtils.isEmpty(email)
                 || TextUtils.isEmpty(schoolId) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
-            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (selectedRole.equals("Select Role") || TextUtils.isEmpty(selectedRole)) {
-            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select a role", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (selectedDepartment.equals("Select Department") || TextUtils.isEmpty(selectedDepartment)) {
-            Toast.makeText(this, "Please select a department", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select a department", Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (selectedYearLevel.equals("Select Year Level") || TextUtils.isEmpty(selectedYearLevel)) {
-            Toast.makeText(this, "Please select a year level", Toast.LENGTH_SHORT).show();
-            return;
+        // Only validate Year Level if role is NOT Teacher
+        if (!selectedRole.equalsIgnoreCase("Teacher")) {
+            if (selectedYearLevel.equals("Select Year Level") || TextUtils.isEmpty(selectedYearLevel)) {
+                Toast.makeText(this, "Please select a year level", Toast.LENGTH_LONG).show();
+                return;
+            }
+        } else {
+            selectedYearLevel = "";
         }
+
 
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (!termsCheckbox.isChecked()) {
-            Toast.makeText(this, "You must agree to the Terms & Conditions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You must agree to the Terms & Conditions", Toast.LENGTH_LONG).show();
             return;
         }
 
-        signupButtonContainer.setEnabled(false); // Disable button
+        Log.d(TAG, "All validations passed! Checking for duplicate School ID...");
+        signupButtonContainer.setEnabled(false);
+        Toast.makeText(this, "Checking School ID...", Toast.LENGTH_SHORT).show();
 
-        // Create user in Firebase Auth
+        // ============ CHECK FOR DUPLICATE SCHOOL ID ============
+        Query query = usersRef.orderByChild("schoolId").equalTo(schoolId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Log.w(TAG, "School ID already registered!");
+                    signupButtonContainer.setEnabled(true);
+                    Toast.makeText(SignUpActivity.this,
+                            "This School ID is already registered. Please use a different ID or contact support.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d(TAG, "School ID is unique, proceeding with signup...");
+                    createFirebaseUser(firstname, middlename, lastname, email, schoolId, password);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Database error checking School ID: " + error.getMessage());
+                signupButtonContainer.setEnabled(true);
+                Toast.makeText(SignUpActivity.this,
+                        "Error checking School ID. Please try again.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createFirebaseUser(String firstname, String middlename, String lastname,
+                                    String email, String schoolId, String password) {
+        Log.d(TAG, "Creating Firebase user...");
+        Toast.makeText(this, "Creating account...", Toast.LENGTH_SHORT).show();
+
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
+                .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        Log.d(TAG, "Firebase Auth SUCCESS!");
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        // Save extra user info in Realtime Database
                         if (user != null) {
                             String userId = user.getUid();
+                            Log.d(TAG, "User UID: " + userId);
+
                             User newUser = new User(firstname, middlename, lastname, email, schoolId,
                                     selectedRole, selectedDepartment, selectedYearLevel);
-                            usersRef.child(userId).setValue(newUser)
-                                    .addOnCompleteListener(dbTask -> {
-                                        signupButtonContainer.setEnabled(true); // Re-enable button
-                                        if (dbTask.isSuccessful()) {
-                                            Toast.makeText(SignUpActivity.this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
-                                            // Redirect to LoginActivity
-                                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(SignUpActivity.this, "Failed to save user data.", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
+
+                            Log.d(TAG, "Saving user data to database...");
+                            usersRef.child(userId).setValue(newUser);
+
+                            Log.d(TAG, "Scheduling navigation to Login...");
+                            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                Log.d(TAG, "Navigating to LoginActivity NOW!");
+                                Toast.makeText(SignUpActivity.this, "Sign Up Successful!", Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+
+                                Log.d(TAG, "Navigation completed!");
+                            }, 1500);
+
+                        } else {
+                            Log.e(TAG, "User is NULL after successful auth!");
+                            signupButtonContainer.setEnabled(true);
+                            Toast.makeText(SignUpActivity.this, "Error: User is null", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        signupButtonContainer.setEnabled(true); // Re-enable button
+                        Log.e(TAG, "Firebase Auth FAILED!");
+                        signupButtonContainer.setEnabled(true);
                         String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                        Toast.makeText(SignUpActivity.this, "Sign Up failed: " + errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e(TAG, "Error: " + errorMessage);
+
+                        if (errorMessage != null && errorMessage.contains("email address is already in use")) {
+                            Toast.makeText(SignUpActivity.this,
+                                    "This email is already registered. Please login or use a different email.",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Sign Up failed: " + errorMessage, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }
@@ -229,21 +322,28 @@ public class SignUpActivity extends AppCompatActivity {
         public String firstname;
         public String middlename;
         public String lastname;
+        public String fullName;
         public String email;
         public String schoolId;
         public String role;
         public String department;
         public String yearLevel;
 
-        public User() {
-            // Default constructor required for Firebase
-        }
+        public User() {}
 
         public User(String firstname, String middlename, String lastname, String email,
                     String schoolId, String role, String department, String yearLevel) {
             this.firstname = firstname;
             this.middlename = middlename;
             this.lastname = lastname;
+
+            // Build fullName - handle optional middle name properly
+            if (middlename != null && !middlename.isEmpty()) {
+                this.fullName = firstname + " " + middlename + " " + lastname;
+            } else {
+                this.fullName = firstname + " " + lastname;
+            }
+
             this.email = email;
             this.schoolId = schoolId;
             this.role = role;

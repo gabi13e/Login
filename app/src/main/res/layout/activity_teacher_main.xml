@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/teacher_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8EAF6"
+    tools:context=".TeacherMainActivity">
+
+    <!-- Fragment Container -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bottom Navigation Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_nav_card"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <!-- Dashboard Nav Item -->
+            <LinearLayout
+                android:id="@+id/nav_dashboard_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/nav_dashboard"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:contentDescription="Dashboard"
+                    android:src="@drawable/ic_dashboard"
+                    app:tint="#7C4DFF" />
+
+                <TextView
+                    android:id="@+id/nav_dashboard_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Dashboard"
+                    android:textColor="#7C4DFF"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Courses Nav Item -->
+            <LinearLayout
+                android:id="@+id/nav_courses_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/nav_courses"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:contentDescription="My Courses"
+                    android:src="@drawable/ic_book"
+                    app:tint="#BDBDBD" />
+
+                <TextView
+                    android:id="@+id/nav_courses_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Courses"
+                    android:textColor="#BDBDBD"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!-- Students Nav Item -->
+            <LinearLayout
+                android:id="@+id/nav_students_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/nav_students"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:contentDescription="Students"
+                    android:src="@drawable/ic_students"
+                    app:tint="#BDBDBD" />
+
+                <TextView
+                    android:id="@+id/nav_students_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Students"
+                    android:textColor="#BDBDBD"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!-- Profile Nav Item -->
+            <LinearLayout
+                android:id="@+id/nav_profile_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/nav_profile"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:contentDescription="Profile"
+                    android:src="@drawable/ic_person"
+                    app:tint="#BDBDBD" />
+
+                <TextView
+                    android:id="@+id/nav_profile_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Profile"
+                    android:textColor="#BDBDBD"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

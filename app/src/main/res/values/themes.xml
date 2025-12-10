@@ -1,5 +1,40 @@
-<resources>
-    <style name="Theme.Login" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize here if needed -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Login" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/blue_primary</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue_accent</item>
+
+        <!-- For NavigationView compatibility -->
+        <item name="drawerArrowStyle">@style/Widget.AppCompat.DrawerArrowToggle</item>
+
+        <!-- For EditText compatibility -->
+        <item name="editTextStyle">@style/Widget.AppCompat.EditText</item>
+
+        <!-- For Button compatibility -->
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+
+        <!-- Window styling -->
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/blue_primary</item>
+    </style>
+
+    <!-- Theme without ActionBar -->
+    <style name="AppTheme" parent="Theme.Login" />
+
+    <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue_primary</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue_accent</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/blue_primary</item>
+    </style>
+
+    <!-- For Toolbar compatibility -->
+    <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 </resources>

@@ -14,66 +14,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Top App Bar -->
-        <com.google.android.material.appbar.AppBarLayout
+        <!-- Top App Bar - Simplified -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="4dp"
-            app:elevation="4dp">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/blue_primary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/blue_primary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/menu_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_menu"
+                    android:tint="@android:color/white"
+                    android:contentDescription="Menu" />
 
-                    <ImageView
-                        android:id="@+id/menu_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:src="@drawable/ic_menu"
-                        app:tint="@android:color/white"
-                        android:contentDescription="Menu" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Admin Dashboard"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:text="Admin Dashboard"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/notification_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_notifications"
+                    android:tint="@android:color/white"
+                    android:contentDescription="Notifications" />
 
-                    <ImageView
-                        android:id="@+id/notification_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:src="@drawable/ic_notifications"
-                        app:tint="@android:color/white"
-                        android:contentDescription="Notifications" />
+            </RelativeLayout>
 
-                </LinearLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
+        </androidx.appcompat.widget.Toolbar>
 
         <!-- Content Container -->
         <ScrollView
+            android:id="@+id/scroll_view_or_main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -83,15 +71,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
-
                 <!-- Welcome Card -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:cardBackgroundColor="@color/blue_primary"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp">
+                    app:cardElevation="4dp"
+                    android:backgroundTint="@color/blue_primary">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -113,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Thursday, December 04, 2025"
+                            android:text="Loading date..."
                             android:textColor="#E3F2FD"
                             android:textSize="14sp" />
 
@@ -121,16 +108,17 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Statistics Grid -->
+                <!-- Statistics Overview -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:text="Statistics Overview"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#212121"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+                <!-- Statistics Grid Row 1 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -143,9 +131,9 @@
                         android:layout_height="120dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        app:cardElevation="2dp"
+                        android:backgroundTint="@android:color/white">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -159,14 +147,14 @@
                                 android:layout_height="32dp"
                                 android:layout_marginBottom="8dp"
                                 android:src="@drawable/ic_people"
-                                app:tint="@color/blue_primary" />
+                                android:tint="@color/blue_primary" />
 
                             <TextView
                                 android:id="@+id/total_users_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textColor="@color/text_primary"
+                                android:textColor="#212121"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
@@ -174,22 +162,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total Users"
-                                android:textColor="@color/text_secondary1"
+                                android:textColor="#757575"
                                 android:textSize="12sp" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Total Students Card -->
+                    <!-- Total Courses Card -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="120dp"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        app:cardElevation="2dp"
+                        android:backgroundTint="@android:color/white">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -202,23 +190,23 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_marginBottom="8dp"
-                                android:src="@drawable/ic_school"
-                                app:tint="#4CAF50" />
+                                android:src="@drawable/ic_book"
+                                android:tint="#2196F3" />
 
                             <TextView
-                                android:id="@+id/total_students_count"
+                                android:id="@+id/total_courses_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textColor="@color/text_primary"
+                                android:textColor="#212121"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Students"
-                                android:textColor="@color/text_secondary1"
+                                android:text="Courses"
+                                android:textColor="#757575"
                                 android:textSize="12sp" />
 
                         </LinearLayout>
@@ -227,7 +215,7 @@
 
                 </LinearLayout>
 
-                <!-- Teachers and Admins Row -->
+                <!-- Statistics Grid Row 2 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -240,9 +228,9 @@
                         android:layout_height="120dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        app:cardElevation="2dp"
+                        android:backgroundTint="@android:color/white">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -256,14 +244,14 @@
                                 android:layout_height="32dp"
                                 android:layout_marginBottom="8dp"
                                 android:src="@drawable/ic_teacher"
-                                app:tint="#FF9800" />
+                                android:tint="#FF9800" />
 
                             <TextView
                                 android:id="@+id/total_teachers_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textColor="@color/text_primary"
+                                android:textColor="#212121"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
@@ -271,22 +259,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Teachers"
-                                android:textColor="@color/text_secondary1"
+                                android:textColor="#757575"
                                 android:textSize="12sp" />
 
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Total Admins Card -->
+                    <!-- Total Students Card -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="120dp"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp">
+                        app:cardElevation="2dp"
+                        android:backgroundTint="@android:color/white">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -299,23 +287,23 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_marginBottom="8dp"
-                                android:src="@drawable/ic_admin"
-                                app:tint="#9C27B0" />
+                                android:src="@drawable/ic_school"
+                                android:tint="#4CAF50" />
 
                             <TextView
-                                android:id="@+id/total_admins_count"
+                                android:id="@+id/total_students_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textColor="@color/text_primary"
+                                android:textColor="#212121"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Admins"
-                                android:textColor="@color/text_secondary1"
+                                android:text="Students"
+                                android:textColor="#757575"
                                 android:textSize="12sp" />
 
                         </LinearLayout>
@@ -324,70 +312,215 @@
 
                 </LinearLayout>
 
-                <!-- Tab Layout for Students/Teachers -->
-                <androidx.cardview.widget.CardView
+                <!-- Quick Actions Section -->
+                <!-- Quick Actions Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Quick Actions"
+                    android:textColor="#212121"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Quick Actions Horizontal ScrollView -->
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardBackgroundColor="@android:color/white"
-                    app:cardCornerRadius="25dp"
-                    app:cardElevation="2dp">
+                    android:layout_marginBottom="24dp"
+                    android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/tab_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:padding="4dp">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/students_tab"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/active_tab_background"
-                            android:gravity="center"
-                            android:text="Students"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/teachers_tab"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                        <!-- Manage Courses Button -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/manage_courses_card"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginEnd="12dp"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@android:color/white"
                             android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center"
-                            android:text="Teachers"
-                            android:textColor="@color/blue_primary"
-                            android:textSize="14sp" />
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:src="@drawable/ic_book"
+                                    android:tint="@color/blue_primary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Manage Courses"
+                                    android:textColor="#212121"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="View and assign"
+                                    android:textColor="#757575"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Manage Users Button -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/manage_users_card"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginEnd="12dp"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@android:color/white"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:src="@drawable/ic_people"
+                                    android:tint="@color/blue_primary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Manage Users"
+                                    android:textColor="#212121"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Students/Teachers"
+                                    android:textColor="#757575"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Create Announcement Button -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/create_announcement_card"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@android:color/white"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:src="@drawable/ic_notifications"
+                                    android:tint="@color/blue_primary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Create Announcement"
+                                    android:textColor="#212121"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Notify users"
+                                    android:textColor="#757575"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </HorizontalScrollView>
 
-                <!-- Management Section Title -->
+                <!-- Student/Teacher Tabs -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:orientation="horizontal">
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
                     <TextView
-                        android:id="@+id/management_title"
+                        android:id="@+id/students_tab"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Student Management"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
+                        android:background="@drawable/active_tab_background"
+                        android:gravity="center"
+                        android:text="Students"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/teachers_tab"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Teachers"
+                        android:textColor="@color/blue_primary"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
-                <!-- Search and Filter Row -->
+                <!-- Management Title -->
+                <TextView
+                    android:id="@+id/management_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Student Management"
+                    android:textColor="#212121"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Search and Filter -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -395,134 +528,160 @@
                     android:orientation="horizontal">
 
                     <!-- Search Bar -->
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@android:color/white"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="2dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/search_icon"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="16dp"
-                                android:src="@drawable/ic_search"
-                                app:tint="@color/text_hint" />
-
-                            <EditText
-                                android:id="@+id/search_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="50dp"
-                                android:layout_marginEnd="16dp"
-                                android:background="@android:color/transparent"
-                                android:hint="Search by name or ID"
-                                android:inputType="text"
-                                android:textColor="@color/text_primary"
-                                android:textColorHint="@color/text_hint"
-                                android:textSize="14sp" />
-
-                        </RelativeLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Filter Button -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/filter_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:cardBackgroundColor="@color/blue_primary"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="2dp">
+                        android:background="@android:color/white"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:gravity="center_vertical">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_filter"
-                            app:tint="@android:color/white" />
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_search"
+                            android:tint="#9E9E9E" />
 
-                    </androidx.cardview.widget.CardView>
+                        <EditText
+                            android:id="@+id/search_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@null"
+                            android:hint="Search by name or ID"
+                            android:inputType="text"
+                            android:textColor="#212121"
+                            android:textColorHint="#9E9E9E"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <!-- Filter Button -->
+                    <Button
+                        android:id="@+id/filter_button"
+                        android:layout_width="75dp"
+                        android:layout_height="50dp"
+                        android:backgroundTint="@color/blue_primary"
+                        android:drawableLeft="@drawable/ic_filter"
+                        android:text="" />
 
                 </LinearLayout>
 
-                <!-- Filter Chips (Initially Hidden) -->
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/filter_chip_group"
+                <!-- Filter Options (Replacement for ChipGroup - temporarily) -->
+                <LinearLayout
+                    android:id="@+id/filter_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:visibility="gone"
-                    app:chipSpacingHorizontal="8dp"
-                    app:singleSelection="true">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_all"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="All"
-                        android:textColor="@color/blue_primary"
-                        app:chipBackgroundColor="@android:color/white" />
+                        android:layout_marginBottom="8dp"
+                        android:text="Filter by Year Level:"
+                        android:textColor="#757575"
+                        android:textSize="14sp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_1st_year"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1st Year"
-                        android:textColor="@color/blue_primary"
-                        app:chipBackgroundColor="@android:color/white" />
+                        android:orientation="horizontal"
+                        android:padding="4dp">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_2nd_year"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
+                        <Button
+                            android:id="@+id/btn_filter_all"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/filter_chip_background"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="All"
+                            android:textColor="@color/blue_primary"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_filter_1st"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/filter_chip_background_inactive"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="1st Year"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_filter_2nd"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/filter_chip_background_inactive"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="2nd Year"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2nd Year"
-                        android:textColor="@color/blue_primary"
-                        app:chipBackgroundColor="@android:color/white" />
+                        android:orientation="horizontal"
+                        android:padding="4dp">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_3rd_year"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3rd Year"
-                        android:textColor="@color/blue_primary"
-                        app:chipBackgroundColor="@android:color/white" />
+                        <Button
+                            android:id="@+id/btn_filter_3rd"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/filter_chip_background_inactive"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="3rd Year"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_4th_year"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4th Year"
-                        android:textColor="@color/blue_primary"
-                        app:chipBackgroundColor="@android:color/white" />
+                        <Button
+                            android:id="@+id/btn_filter_4th"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/filter_chip_background_inactive"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="4th Year"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_5th_year"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5th Year"
-                        android:textColor="@color/blue_primary"
-                        app:chipBackgroundColor="@android:color/white" />
+                        <Button
+                            android:id="@+id/btn_filter_5th"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/filter_chip_background_inactive"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="5th Year"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
 
-                </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <!-- Sort Options -->
                 <LinearLayout
@@ -536,22 +695,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sort by:"
-                        android:textColor="@color/text_secondary1"
+                        android:textColor="#757575"
                         android:textSize="15sp" />
 
                     <Spinner
                         android:id="@+id/sort_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:entries="@array/sort_options" />
+                        android:layout_marginStart="8dp" />
 
                 </LinearLayout>
 
                 <!-- Action Buttons -->
-                <!-- Action Buttons -->
                 <LinearLayout
-                    android:layout_width="match_parent"    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:orientation="horizontal">
 
@@ -567,8 +725,7 @@
                         android:text="Add Student"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        app:cornerRadius="25dp" />  <!-- CHANGED FROM 12dp to 25dp -->
+                        android:textSize="14sp" />
 
                     <Button
                         android:id="@+id/refresh_button"
@@ -582,26 +739,24 @@
                         android:text="Refresh"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        app:cornerRadius="25dp" />  <!-- CHANGED FROM 12dp to 25dp -->
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
-
-                <!-- Users List -->
+                <!-- Users List Card -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="2dp"
+                    android:backgroundTint="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <!-- List Header -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -620,7 +775,7 @@
 
                             <View
                                 android:layout_width="0dp"
-                                android:layout_height="1dp"
+                                android:layout_height="0dp"
                                 android:layout_weight="1" />
 
                             <TextView
@@ -628,29 +783,28 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0 users"
-                                android:textColor="@color/text_secondary1"
+                                android:textColor="#757575"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
 
+                        <!-- RecyclerView -->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/users_recycler_view"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:minHeight="200dp"
+                            android:layout_height="400dp"
                             android:padding="8dp" />
 
+                        <!-- Empty State -->
                         <TextView
                             android:id="@+id/empty_state_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="32dp"
-                            android:drawableTop="@drawable/ic_empty"
-                            android:drawablePadding="16dp"
                             android:gravity="center"
                             android:text="No users found"
-                            android:textColor="@color/text_secondary1"
+                            android:textColor="#757575"
                             android:textSize="14sp"
                             android:visibility="gone" />
 
@@ -664,6 +818,13 @@
 
     </LinearLayout>
 
+    <!-- Add this after your ScrollView, before closing the main LinearLayout -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -671,7 +832,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
-        app:headerLayout="@layout/nav_header"
         app:menu="@menu/admin_nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

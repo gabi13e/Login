@@ -4,7 +4,11 @@
     <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <!-- Navigation Drawer Items -->
+    <string name="nav_home">Home</string>
+    <string name="nav_courses">Courses</string>
+    <string name="nav_grades">Grades</string>
+    <string name="nav_profile">Profile</string>
     <!-- Menu Items -->
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_users">Users</string>
@@ -13,6 +17,11 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
 
+
+    <string name="enrolled_count">%d Enrolled</string>
+    <string name="available_count">%d Available</string>
+    <string name="credits_format">%d credits</string>
+    <string name="capacity_format">%d/%d students</string>
     <!-- Form Prompts -->
     <string name="role_prompt">Select Role</string>
     <string name="department_prompt">Select Department</string>
@@ -52,7 +61,6 @@
         <item>2nd Year</item>
         <item>3rd Year</item>
         <item>4th Year</item>
-        <item>5th Year</item>
     </string-array>
 
     <string-array name="sort_options">
@@ -63,4 +71,18 @@
         <item>Department</item>
         <item>Recently Added</item>
     </string-array>
+    <!-- Course Fragment -->
+    <string name="courses_title">My Courses</string>
+    <string name="courses_subtitle">Current Semester</string>
+    <string name="no_courses">No courses available</string>
+    <string name="loading_courses">Loading courses…</string>
+    <string name="error_loading_courses">Error loading courses</string>
+
+    <!-- Course Details -->
+    <string name="instructor_label">Instructor:</string>
+    <string name="schedule_label">Schedule:</string>
+    <string name="room_label">Room:</string>
+    <string name="credits_label">Credits:</string>
+    <string name="units_format">%d Units</string>
+
 </resources>
